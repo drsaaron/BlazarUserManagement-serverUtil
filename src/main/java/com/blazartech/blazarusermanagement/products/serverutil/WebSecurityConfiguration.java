@@ -44,11 +44,9 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         http
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf().disable();
+                .exceptionHandling(h -> h.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(f -> f.disable());
         return http.build();
     }
 
