@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author AAR1069
  */
-@Configuration
+//@Configuration
 public class BlazarUserSecurityHealthIndicatorConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(BlazarUserSecurityHealthIndicatorConfiguration.class);
