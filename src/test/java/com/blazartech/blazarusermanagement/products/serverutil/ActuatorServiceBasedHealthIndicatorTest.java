@@ -4,6 +4,7 @@
  */
 package com.blazartech.blazarusermanagement.products.serverutil;
 
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.health.contributor.Health;
+import org.springframework.boot.health.contributor.Status;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,7 +77,11 @@ public class ActuatorServiceBasedHealthIndicatorTest {
         logger.info("h = {}", h);
         logger.info("status = {}", h.getStatus().getCode());
         
-        assertEquals("UP", h.getStatus().getCode());
+        Map<String, Object> details = h.getDetails();
+        
+        assertEquals(Status.UP, h.getStatus());
+        assertEquals(hr1.getStatus(), details.get("status"));
+        assertEquals(URL, details.get("healthCheckURL"));
     }
 
     @Test
@@ -92,7 +98,11 @@ public class ActuatorServiceBasedHealthIndicatorTest {
         logger.info("h = {}", h);
         logger.info("status = {}", h.getStatus().getCode());
         
-        assertEquals("DOWN", h.getStatus().getCode());
+        Map<String, Object> details = h.getDetails();
+        
+        assertEquals(Status.DOWN, h.getStatus());
+        assertEquals(hr2.getStatus(), details.get("status"));
+        assertEquals(URL, details.get("healthCheckURL"));
     }
     
     @Test
@@ -111,7 +121,7 @@ public class ActuatorServiceBasedHealthIndicatorTest {
         String errorDetail = (String) h.getDetails().get("error");
         String expectedError = RestClientException.class.getName() + ": Unable to read health from " + URL;
         
-        assertEquals("DOWN", h.getStatus().getCode());
+        assertEquals(Status.DOWN, h.getStatus());
         assertEquals(expectedError, errorDetail);
     }
 }
