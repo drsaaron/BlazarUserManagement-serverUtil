@@ -30,7 +30,7 @@ public class ActuatorServiceBasedHealthIndicator implements HealthIndicator {
         this.restTemplate = restTemplate;
     }
 
-    public Health checkHeathFromURL(String url) {
+    public Health checkHealthFromURL(String url) {
         // can we successfully query the health URL?
         try {
             HealthResponse healthResponse = restTemplate.getForObject(url, HealthResponse.class);
@@ -58,6 +58,6 @@ public class ActuatorServiceBasedHealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
-        return checkHeathFromURL(healthURL);
+        return checkHealthFromURL(healthURL);
     }
 }

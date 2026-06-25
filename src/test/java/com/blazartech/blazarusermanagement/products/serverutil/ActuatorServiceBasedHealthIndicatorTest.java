@@ -93,7 +93,7 @@ public class ActuatorServiceBasedHealthIndicatorTest {
     public void testHealth_up() {
         logger.info("health_up");
         
-        Health h = instance.checkHeathFromURL(URL1);
+        Health h = instance.checkHealthFromURL(URL1);
         logger.info("h = {}", h);
         logger.info("status = {}", h.getStatus().getCode());
         
@@ -108,7 +108,7 @@ public class ActuatorServiceBasedHealthIndicatorTest {
     public void testHealth_down() {
         logger.info("health_down");
         
-        Health h = instance.checkHeathFromURL(URL2);
+        Health h = instance.checkHealthFromURL(URL2);
         logger.info("h = {}", h);
         logger.info("status = {}", h.getStatus().getCode());
         
@@ -123,7 +123,7 @@ public class ActuatorServiceBasedHealthIndicatorTest {
     public void testHealth_down_exception() {
         logger.info("health_down_exception");
         
-        Health h = instance.checkHeathFromURL(URL3);
+        Health h = instance.checkHealthFromURL(URL3);
         logger.info("h = {}", h);
         logger.info("status = {}", h.getStatus().getCode());
         logger.info("error details = {}", h.getDetails().get("error"));
