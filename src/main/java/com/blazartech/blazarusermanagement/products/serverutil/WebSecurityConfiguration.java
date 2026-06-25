@@ -35,7 +35,7 @@ public class WebSecurityConfiguration {
 
     @Bean
     public FilterRegistrationBean jwtFilter() {
-        FilterRegistrationBean filter = new FilterRegistrationBean();
+        FilterRegistrationBean<JwtRequestFilter> filter = new FilterRegistrationBean<>();
         filter.setFilter(jwtRequestFilter);
         // provide endpoints which needs to be restricted.
         // All Endpoints would be restricted if unspecified

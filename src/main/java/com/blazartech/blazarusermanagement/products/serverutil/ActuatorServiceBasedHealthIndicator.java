@@ -38,10 +38,12 @@ public class ActuatorServiceBasedHealthIndicator implements HealthIndicator {
             // if we're here, all good.
             if (healthResponse != null) {
                 switch (healthResponse.getStatus()) {
-                    case "UP":
+                    case "UP" -> {
                         return Health.up().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", healthURL).build();
-                    case "DOWN":
+                    }
+                    case "DOWN" -> {
                         return Health.down().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", healthURL).build();
+                    }
                 }
             } else {
                 throw new RestClientException("Unable to read health from " + healthURL);
