@@ -30,23 +30,23 @@ public class ActuatorServiceBasedHealthIndicator implements HealthIndicator {
         this.restTemplate = restTemplate;
     }
 
-    private Health checkHeathFromURL() {
+    public Health checkHeathFromURL(String url) {
         // can we successfully query the health URL?
         try {
-            HealthResponse healthResponse = restTemplate.getForObject(healthURL, HealthResponse.class);
+            HealthResponse healthResponse = restTemplate.getForObject(url, HealthResponse.class);
 
             // if we're here, all good.
             if (healthResponse != null) {
                 switch (healthResponse.getStatus()) {
                     case "UP" -> {
-                        return Health.up().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", healthURL).build();
+                        return Health.up().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", url).build();
                     }
                     case "DOWN" -> {
-                        return Health.down().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", healthURL).build();
+                        return Health.down().withDetail("status", healthResponse.getStatus()).withDetail("healthCheckURL", url).build();
                     }
                 }
             } else {
-                throw new RestClientException("Unable to read health from " + healthURL);
+                throw new RestClientException("Unable to read health from " + url);
             }
         } catch (RestClientException e) {
             return Health.down().withException(e).build();
@@ -58,6 +58,6 @@ public class ActuatorServiceBasedHealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
-        return checkHeathFromURL();
+        return checkHeathFromURL(healthURL);
     }
 }
